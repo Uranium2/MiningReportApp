@@ -15,15 +15,16 @@ import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
 public class MainActivity extends AppCompatActivity {
-    private Button[] buttons = null, buttonsOption = null;
-    private WebView[] webViews = null;
-    private AsyncExample[] asyncExamples = null;
-    private String[] paramLabel = null, paramColor = null, paramSource = null;
-    private ColorPicker[] colorPickers = null;
+    private Button[] buttons, buttonsOption;
+    private WebView[] webViews;
+    private AsyncExample[] asyncExamples;
+    private String[] paramLabel, paramColor, paramSource;
+    private ColorPicker[] colorPickers;
     private int nbObjects = 2, defaultR = 0, defaultG = 0, defaultB = 0;
+    private int[] defaultColors;
     private  int defaultA = 1;
-    private TextView[] textViews = null;
-    private Button buttonMenuOption = null, buttonBack = null;
+    private TextView[] textViews;
+    private Button buttonMenuOption, buttonBack;
     private String colorSeparator = "%2C";
 
 
