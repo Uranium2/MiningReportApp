@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -16,29 +15,82 @@ import com.pes.androidmaterialcolorpickerdialog.ColorPicker;
 import com.pes.androidmaterialcolorpickerdialog.ColorPickerCallback;
 
 public class MainActivity extends AppCompatActivity {
-    private Button[] buttons = null;
+    private Button[] buttons = null, buttonsOption = null;
     private WebView[] webViews = null;
-    private AsyncExample[] asyncExamples= null;
-    private String[] params = null;
+    private AsyncExample[] asyncExamples = null;
+    private String[] paramLabel = null, paramColor = null;
     private ColorPicker[] colorPickers = null;
-    private int nbObjects = 2;
+    private int nbObjects = 2, defaultR = 0, defaultG = 0, defaultB = 0, defaultA = 1;
     private TextView[] textViews = null;
+    private Button buttonMenuOption = null, buttonBack = null;
+    private String colorSeparator = "%2C";
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        paramColor = new String[nbObjects];
+        String defaultColor = "rbga(" + defaultR + colorSeparator + defaultG + colorSeparator
+                + defaultB + colorSeparator + defaultA + ")";
+        paramColor[0] = defaultColor;
+        paramColor[1] = defaultColor;
+        loadActivity();
+
+    }
+
+    private void loadActivity() {
         setContentView(R.layout.activity_main);
         // Listes d'objets
         buttons = new Button[nbObjects];
         buttons[0] = findViewById(R.id.button0);
         buttons[1] = findViewById(R.id.button1);
 
+        buttonMenuOption = findViewById(R.id.buttonOption);
+        buttonMenuOption.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                setContentView(R.layout.graph_option);
+                for (int i = 0; i < nbObjects; i++) {
+                    buttonBack = findViewById(R.id.buttonBack);
+                    buttonsOption = new Button[nbObjects];
+                    buttonsOption[0] = findViewById(R.id.buttonOption0);
+                    buttonsOption[1] = findViewById(R.id.buttonOption1);
+                    final int j = i;
+                    colorPickers[j] = new ColorPicker(MainActivity.this, 120, 60, 240);
+                    buttonsOption[i].setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            colorPickers[j].show();
+                            colorPickers[j].setCallback(new ColorPickerCallback() {
+                                @Override
+                                public void onColorChosen(@ColorInt int color) {
+                                    String pickedColor = "rbga(" +
+                                            Integer.toString(Color.red(color)) + colorSeparator +
+                                            Integer.toString(Color.green(color)) + colorSeparator +
+                                            Integer.toString(Color.blue(color)) + colorSeparator +
+                                            defaultA + ")";
+                                    defaultR = Color.red(color);
+                                    defaultG = Color.green(color);
+                                    defaultB = Color.blue(color);
+                                    paramColor[j] = pickedColor;
+                                    colorPickers[j].hide();
+                                }
+                            });
+                        }
+                    });
+                    buttonBack.setOnClickListener(new View.OnClickListener() {
+                        public void onClick(View v) {
+                            loadActivity();
+                        }
+                    });
+                }
+            }
+        });
+
         webViews = new WebView[nbObjects];
         webViews[0] = findViewById(R.id.webView0);
         webViews[1] = findViewById(R.id.webView1);
 
-        params = new String[nbObjects];
-        params[0] = "GPUTemp";
-        params[1] = "CPUTemp";
+        paramLabel = new String[nbObjects];
+        paramLabel[0] = "GPUTemp";
+        paramLabel[1] = "CPUTemp";
 
         textViews = new TextView[nbObjects];
         textViews[0] = findViewById(R.id.textView0);
@@ -57,9 +109,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             //webViews[i].setVisibility(View.GONE);
-            asyncExamples[i] = new AsyncExample(this, webViews[i], params[i], textViews[i]);
+            asyncExamples[i] = new AsyncExample(this, webViews[i], paramLabel[i],
+                    paramColor[i], textViews[i]);
             asyncExamples[i].execute();
-            colorPickers[i] = new ColorPicker(MainActivity.this, 120, 60, 240);
             final int j = i;
             buttons[i].setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
@@ -68,19 +120,6 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         webViews[j].setVisibility(View.VISIBLE);
                     }
-                    colorPickers[j].show();
-                    colorPickers[j].setCallback(new ColorPickerCallback() {
-                        @Override
-                        public void onColorChosen(@ColorInt int color) {
-                            // Do whatever you want
-                            // Examples Integer.toString(Color.red(color))
-
-                            //Log.d("Pure Hex", Integer.toHexString(color));
-                            //Log.d("#Hex no alpha", String.format("#%06X", (0xFFFFFF & color)));
-                            //Log.d("#Hex with alpha", String.format("#%08X", (0xFFFFFFFF & color)));
-                            colorPickers[j].hide();
-                        }
-                    });
                 }
             });
         }

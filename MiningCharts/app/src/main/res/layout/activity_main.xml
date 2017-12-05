@@ -48,6 +48,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/CPU_Temp" />
+
+        <Button
+            android:id="@+id/buttonOption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Options" />
     </LinearLayout>
 
 

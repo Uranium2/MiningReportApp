@@ -29,15 +29,18 @@ import javax.net.ssl.X509TrustManager;
 class AsyncExample extends AsyncTask<Void, Void, Void> {
     private HttpURLConnection con;
     private MainActivity mContext;
-    private String urlParameters;
+    private String urlParameters, paramLabel, paramColor;
     private WebView mWebView;
     private TextView mtextView;
 
-    public AsyncExample(MainActivity context, WebView webView, String param, TextView textView) {
+    public AsyncExample(MainActivity context, WebView webView, String paramLabel,
+                        String paramColor, TextView textView) {
         mContext = context;
         mWebView = webView;
-        urlParameters = param;
+        urlParameters = null;
         mtextView = textView;
+        this.paramColor = paramColor;
+        this.paramLabel = paramLabel;
     }
 
     protected void onPreExecute() {
@@ -45,8 +48,10 @@ class AsyncExample extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected Void doInBackground(Void... params) {
-        String param = urlParameters;
-        urlParameters = "user=Antoine&label="+ param + "&file=DataSource0.txt&backgroundColor=rgb(255%2C255%2C255%2C0)&borderColor=rgb(255%2C255%2C255%2C0)&pointBorderColor=rgb(255%2C255%2C255%2C0)&pointHoverBackgroundColor=rgb(255%2C255%2C255%2C0)&pointHoverBorderColor=rgb(255%2C255%2C255%2C0)&min=0&max=100&stepSize=50";
+        urlParameters = "user=Antoine&label=" + paramLabel + "&file=DataSource0.txt&backgroundColor=" +
+               paramColor + "&borderColor=" + paramColor + "&pointBorderColor=" + paramColor +
+                "&pointHoverBackgroundColor=" + paramColor + "&pointHoverBorderColor=" +
+                paramColor + "&min=0&max=100&stepSize=50";
 
         byte[] postData = urlParameters.getBytes(Charset.forName("UTF-8"));
         int postDataLength = postData.length;
