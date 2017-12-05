@@ -18,9 +18,10 @@ public class MainActivity extends AppCompatActivity {
     private Button[] buttons = null, buttonsOption = null;
     private WebView[] webViews = null;
     private AsyncExample[] asyncExamples = null;
-    private String[] paramLabel = null, paramColor = null;
+    private String[] paramLabel = null, paramColor = null, paramSource = null;
     private ColorPicker[] colorPickers = null;
-    private int nbObjects = 2, defaultR = 0, defaultG = 0, defaultB = 0, defaultA = 1;
+    private int nbObjects = 2, defaultR = 0, defaultG = 0, defaultB = 0;
+    private  int defaultA = 1;
     private TextView[] textViews = null;
     private Button buttonMenuOption = null, buttonBack = null;
     private String colorSeparator = "%2C";
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         paramColor = new String[nbObjects];
-        String defaultColor = "rbga(" + defaultR + colorSeparator + defaultG + colorSeparator
+        String defaultColor = "rgba(" + defaultR + colorSeparator + defaultG + colorSeparator
                 + defaultB + colorSeparator + defaultA + ")";
         paramColor[0] = defaultColor;
         paramColor[1] = defaultColor;
@@ -54,14 +55,15 @@ public class MainActivity extends AppCompatActivity {
                     buttonsOption[0] = findViewById(R.id.buttonOption0);
                     buttonsOption[1] = findViewById(R.id.buttonOption1);
                     final int j = i;
-                    colorPickers[j] = new ColorPicker(MainActivity.this, 120, 60, 240);
+                    colorPickers[j] = new ColorPicker(MainActivity.this,
+                            defaultR, defaultG, defaultB);
                     buttonsOption[i].setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             colorPickers[j].show();
                             colorPickers[j].setCallback(new ColorPickerCallback() {
                                 @Override
                                 public void onColorChosen(@ColorInt int color) {
-                                    String pickedColor = "rbga(" +
+                                    String pickedColor = "rgba(" +
                                             Integer.toString(Color.red(color)) + colorSeparator +
                                             Integer.toString(Color.green(color)) + colorSeparator +
                                             Integer.toString(Color.blue(color)) + colorSeparator +
@@ -90,7 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
         paramLabel = new String[nbObjects];
         paramLabel[0] = "GPUTemp";
-        paramLabel[1] = "CPUTemp";
+        paramLabel[1] = "GPUUsage";
+
+        paramSource = new String[nbObjects];
+        paramSource[0] = "DataSource0.txt";
+        paramSource[1] = "DataSource1.txt";
 
         textViews = new TextView[nbObjects];
         textViews[0] = findViewById(R.id.textView0);
@@ -110,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             });
             //webViews[i].setVisibility(View.GONE);
             asyncExamples[i] = new AsyncExample(this, webViews[i], paramLabel[i],
-                    paramColor[i], textViews[i]);
+                    paramColor[i], paramSource[i], textViews[i]);
             asyncExamples[i].execute();
             final int j = i;
             buttons[i].setOnClickListener(new View.OnClickListener() {

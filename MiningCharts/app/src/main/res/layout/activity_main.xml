@@ -34,7 +34,7 @@
             android:id="@+id/button1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/CPU_Temp" />
+            android:text="@string/GPU_Usage" />
 
         <WebView
             android:id="@+id/webView1"
@@ -47,7 +47,7 @@
             android:id="@+id/textView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/CPU_Temp" />
+            android:text="@string/GPU_Usage" />
 
         <Button
             android:id="@+id/buttonOption"

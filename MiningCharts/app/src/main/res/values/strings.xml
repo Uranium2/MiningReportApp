@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MiningCharts</string>
     <string name="GPU_Temp">GPU Temp</string>
-    <string name="CPU_Temp">CPU Temp</string>
+    <string name="GPU_Usage">GPU Usage</string>
     <string name="ChooseColor">Choose Color</string>
     <dimen name="heightWebView">100dp</dimen>
     <dimen name="heightLayoutOption">50dp</dimen>
