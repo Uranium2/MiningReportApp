@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private String[] paramLabel, paramColor, paramSource;
     private ColorPicker[] colorPickers;
     private int nbObjects = 2, defaultR = 0, defaultG = 0, defaultB = 0;
-    private int[] defaultColors;
-    private  int defaultA = 1;
+    private int[] defaultRArr, defaultGArr, defaultBArr;
+    private int defaultA = 1;
     private TextView[] textViews;
     private Button buttonMenuOption, buttonBack;
     private String colorSeparator = "%2C";
@@ -35,8 +35,17 @@ public class MainActivity extends AppCompatActivity {
                 + defaultB + colorSeparator + defaultA + ")";
         paramColor[0] = defaultColor;
         paramColor[1] = defaultColor;
+        initColors();
         loadActivity();
 
+    }
+
+    private void initColors() {
+        for (int i = 0; i < nbObjects; i++) {
+            defaultRArr[i] = 0;
+            defaultGArr[i] = 0;
+            defaultRArr[i] = 0;
+        }
     }
 
     private void loadActivity() {
@@ -45,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         buttons = new Button[nbObjects];
         buttons[0] = findViewById(R.id.button0);
         buttons[1] = findViewById(R.id.button1);
+        defaultRArr = new int[nbObjects];
+        defaultGArr = new int[nbObjects];
+        defaultBArr = new int[nbObjects];
 
         buttonMenuOption = findViewById(R.id.buttonOption);
         buttonMenuOption.setOnClickListener(new View.OnClickListener() {
@@ -56,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
                     buttonsOption[0] = findViewById(R.id.buttonOption0);
                     buttonsOption[1] = findViewById(R.id.buttonOption1);
                     final int j = i;
-                    colorPickers[j] = new ColorPicker(MainActivity.this,
-                            defaultR, defaultG, defaultB);
+                    colorPickers[i] = new ColorPicker(MainActivity.this,
+                            defaultRArr[i], defaultGArr[i], defaultBArr[i]);
                     buttonsOption[i].setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
                             colorPickers[j].show();
@@ -69,9 +81,9 @@ public class MainActivity extends AppCompatActivity {
                                             Integer.toString(Color.green(color)) + colorSeparator +
                                             Integer.toString(Color.blue(color)) + colorSeparator +
                                             defaultA + ")";
-                                    defaultR = Color.red(color);
-                                    defaultG = Color.green(color);
-                                    defaultB = Color.blue(color);
+                                    defaultRArr[j] = Color.red(color);
+                                    defaultGArr[j] = Color.green(color);
+                                    defaultBArr[j] = Color.blue(color);
                                     paramColor[j] = pickedColor;
                                     colorPickers[j].hide();
                                 }

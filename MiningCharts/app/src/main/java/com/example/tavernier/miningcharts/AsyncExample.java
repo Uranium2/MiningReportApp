@@ -56,7 +56,9 @@ class AsyncExample extends AsyncTask<Void, Void, Void> {
                 "&pointBorderColor=" + paramColor +
                 "&pointHoverBackgroundColor=" + paramColor +
                 "&pointHoverBorderColor=" + paramColor +
-                "&min=0&max=100&stepSize=50";
+                "&min=0" +
+                "&max=100" +
+                "&stepSize=50";
 
         byte[] postData = urlParameters.getBytes(Charset.forName("UTF-8"));
         int postDataLength = postData.length;
